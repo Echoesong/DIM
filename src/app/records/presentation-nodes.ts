@@ -272,7 +272,7 @@ function searchRewards(
   );
 }
 
-function toCollectibles(
+export function toCollectibles(
   itemCreationContext: ItemCreationContext,
   collectibleHashes: DestinyPresentationNodeCollectibleChildEntry[]
 ): DimCollectible[] {
@@ -306,12 +306,17 @@ function toCollectibles(
       };
     })
   );
+  // eslint-disable-next-line no-console
+  console.log('prior to filtering duplicates: ', result);
   // Filter out duplicates
-  return result.filter((item) => {
+  const output = result.filter((item) => {
     const duplicate = encounteredHashes.has(item.collectibleDef.itemHash);
     encounteredHashes.add(item.collectibleDef.itemHash);
     return !duplicate;
   });
+  // eslint-disable-next-line no-console
+  console.log('after filtering duplicates: ', output);
+  return output;
 }
 
 function toRecords(
